@@ -45,7 +45,7 @@ public class FuncionarioRepo implements IFuncionario {
     public Integer insertOne(Funcionario funcionario) {
         var sql = """
                 INSERT INTO funcionario(nome, cpf, nascimento, cargo, admissao, status)
-                VALUES (?, ?, ?, ?, ?, ?);
+                VALUES (?, ?, ?, ?, ?, 1);
                 """;
 
         return jdbcTemplate.update(sql,
@@ -53,9 +53,48 @@ public class FuncionarioRepo implements IFuncionario {
                 funcionario.getCpf(),
                 funcionario.getNascimento(),
                 funcionario.getCargo(),
-                funcionario.getAdmissao(),
-                funcionario.getStatus()
+                funcionario.getAdmissao()
         );
+    }
+
+    @Override
+    public Integer updateName(String name, Integer Id) {
+        var sql = """
+                UPDATE funcionario
+                SET nome = ?
+                WHERE codigo = ?;
+                """;
+        return jdbcTemplate.update(sql, name, Id);
+    }
+
+    @Override
+    public Integer updateCargo(String cargo, Integer Id) {
+        var sql = """
+                UPDATE funcionario
+                SET cargo = ?
+                WHERE codigo = ?;
+                """;
+        return jdbcTemplate.update(sql, cargo, Id);
+    }
+
+    @Override
+    public Integer updateCpf(String cpf, Integer Id) {
+        var sql = """
+                UPDATE funcionario
+                SET cpf = ?
+                WHERE codigo = ?;
+                """;
+        return jdbcTemplate.update(sql, cpf, Id);
+    }
+
+    @Override
+    public Integer updateNascimento(String dob, Integer Id) {
+        var sql = """
+                UPDATE funcionario
+                SET nascimento = ?
+                WHERE codigo = ?;
+                """;
+        return jdbcTemplate.update(sql, dob, Id);
     }
 
     @Override
