@@ -1,12 +1,15 @@
 package com.teste.treinamentos.entity;
 
 import com.teste.treinamentos.utils.DateHelper;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.Date;
 
 @Data
+@AllArgsConstructor
 public class Funcionario {
     private Integer codigo;
     private String nome;
@@ -15,6 +18,7 @@ public class Funcionario {
     private LocalDate admissao;
     private LocalDate nascimento;
     private Boolean status;
+
 
     public void setAdmissao(String date) {
         this.admissao = DateHelper.convertToLocalDate(date);
