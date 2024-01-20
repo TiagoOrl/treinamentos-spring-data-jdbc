@@ -25,7 +25,7 @@ public class FuncionarioController {
         return service.getAll(active);
     }
 
-    @GetMapping("/client")
+    @GetMapping("/one")
     public GetFuncionarioDTO getById(@RequestParam Integer id) {
         return service.getById(id);
     }
