@@ -1,4 +1,4 @@
-package com.teste.treinamentos.repository;
+package com.teste.treinamentos.repository.funcionario;
 
 import com.teste.treinamentos.entity.Funcionario;
 import org.springframework.jdbc.core.RowMapper;

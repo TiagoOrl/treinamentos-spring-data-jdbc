@@ -10,6 +10,7 @@ import java.util.Date;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Funcionario {
     private Integer codigo;
     private String nome;

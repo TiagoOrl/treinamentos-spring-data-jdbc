@@ -1,9 +1,12 @@
-package com.teste.treinamentos.repository;
+package com.teste.treinamentos.repository.funcionario;
 
 import com.teste.treinamentos.entity.Funcionario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,13 +51,17 @@ public class FuncionarioRepo implements IFuncionario {
                 VALUES (?, ?, ?, ?, ?, 1);
                 """;
 
-        return jdbcTemplate.update(sql,
-                funcionario.getNome(),
-                funcionario.getCpf(),
-                funcionario.getNascimento(),
-                funcionario.getCargo(),
-                funcionario.getAdmissao()
-        );
+        try {
+            return jdbcTemplate.update(sql,
+                    funcionario.getNome(),
+                    funcionario.getCpf(),
+                    funcionario.getNascimento(),
+                    funcionario.getCargo(),
+                    funcionario.getAdmissao()
+            );
+        } catch (DataAccessException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        }
     }
 
     @Override
@@ -95,6 +102,16 @@ public class FuncionarioRepo implements IFuncionario {
                 WHERE codigo = ?;
                 """;
         return jdbcTemplate.update(sql, dob, Id);
+    }
+
+    @Override
+    public Integer updateAdmissao(String admissao, Integer Id) {
+        var sql = """
+                UPDATE funcionario
+                SET admissao = ?
+                WHERE codigo = ?;
+                """;
+        return jdbcTemplate.update(sql, admissao, Id);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.teste.treinamentos.repository;
+package com.teste.treinamentos.repository.funcionario;
 
 import com.teste.treinamentos.entity.Funcionario;
 
@@ -13,5 +13,6 @@ public interface IFuncionario {
     Integer updateCargo(String cargo, Integer Id);
     Integer updateCpf(String cpf, Integer Id);
     Integer updateNascimento(String dob, Integer Id);
+    Integer updateAdmissao(String admissao, Integer Id);
     Integer softDeleteOne(Integer Id);
 }
