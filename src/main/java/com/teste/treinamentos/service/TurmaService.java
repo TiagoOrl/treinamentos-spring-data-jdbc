@@ -46,7 +46,7 @@ public class TurmaService {
         ).toList();
     }
 
-    public List<GetTurmaDTO> getByCourseId(Integer courseId) {
+    public List<GetTurmaDTO> getAllTurmasByCourseId(Integer courseId) {
         var opt = cursoRepository.getById(courseId);
 
         if (opt.isEmpty())

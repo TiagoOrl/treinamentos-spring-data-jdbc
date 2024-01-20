@@ -6,6 +6,7 @@ import com.teste.treinamentos.dto.turma.GetTurmaDTO;
 import com.teste.treinamentos.dto.turma_part.AddTurmaParticipanteDTO;
 import com.teste.treinamentos.service.TurmaService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 public class TurmaController {
     private final TurmaService service;
 
+    @Autowired
     public TurmaController(TurmaService service) {
         this.service = service;
     }
@@ -24,19 +26,24 @@ public class TurmaController {
         return service.getAll();
     }
 
-    @PostMapping
+    @GetMapping("by-course-id")
+    public List<GetTurmaDTO> getByCourseId(@RequestParam Integer id) {
+        return service.getAllTurmasByCourseId(id);
+    }
+
+    @PostMapping("create-turma")
     public CreateTurmaDTO createOne(@Valid @RequestBody CreateTurmaDTO dto) {
         return service.createOne(dto);
     }
 
-    @PostMapping
+    @PostMapping("add-student")
     public AddTurmaParticipanteDTO addTurmaParticipante(
             @Valid @RequestBody AddTurmaParticipanteDTO dto
     ) {
         return service.addTurmaParticipante(dto);
     }
 
-    @PutMapping("remove-student")
+    @DeleteMapping("remove-student")
     public GetFuncionarioDTO removeFuncionarioById(
             @RequestParam(name = "funcionario_id") Integer funcionarioId,
             @RequestParam(name = "turma_id") Integer turmaId
@@ -44,7 +51,7 @@ public class TurmaController {
         return service.removeFuncionarioFromTurma(funcionarioId, turmaId);
     }
 
-    @DeleteMapping
+    @DeleteMapping("remove-turma")
     public GetTurmaDTO deleteTurmaById(@RequestParam(name = "turma_id") Integer id) {
         return service.deleteTurmaById(id);
     }
