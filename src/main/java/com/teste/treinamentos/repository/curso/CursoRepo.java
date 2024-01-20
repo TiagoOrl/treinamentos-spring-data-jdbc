@@ -52,7 +52,7 @@ public class CursoRepo implements ICurso {
         var sql = """
                 SELECT *
                 FROM curso
-                WHERE name LIKE ?;
+                WHERE nome LIKE ?;
                 """;
 
         return jdbcTemplate.query(sql, new CursoMapper(), "%" + name + "%");
