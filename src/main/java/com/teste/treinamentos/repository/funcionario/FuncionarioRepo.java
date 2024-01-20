@@ -29,8 +29,11 @@ public class FuncionarioRepo implements IFuncionario {
                 WHERE status = ?
                 LIMIT 100;
                 """;
-
-        return jdbcTemplate.query(sql, new FuncionarioMapper(), active);
+        try {
+            return jdbcTemplate.query(sql, new FuncionarioMapper(), active);
+        } catch (DataAccessException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        }
     }
 
     @Override
@@ -41,7 +44,11 @@ public class FuncionarioRepo implements IFuncionario {
                 WHERE codigo = ?
                 """;
 
-        return jdbcTemplate.query(sql, new FuncionarioMapper(), id).stream().findFirst();
+        try {
+            return jdbcTemplate.query(sql, new FuncionarioMapper(), id).stream().findFirst();
+        } catch (DataAccessException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        }
     }
 
     @Override
@@ -71,7 +78,12 @@ public class FuncionarioRepo implements IFuncionario {
                 SET nome = ?
                 WHERE codigo = ?;
                 """;
-        return jdbcTemplate.update(sql, name, Id);
+
+        try {
+            return jdbcTemplate.update(sql, name, Id);
+        } catch (DataAccessException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        }
     }
 
     @Override
@@ -81,7 +93,11 @@ public class FuncionarioRepo implements IFuncionario {
                 SET cargo = ?
                 WHERE codigo = ?;
                 """;
-        return jdbcTemplate.update(sql, cargo, Id);
+        try {
+            return jdbcTemplate.update(sql, cargo, Id);
+        } catch (DataAccessException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        }
     }
 
     @Override
@@ -91,7 +107,11 @@ public class FuncionarioRepo implements IFuncionario {
                 SET cpf = ?
                 WHERE codigo = ?;
                 """;
-        return jdbcTemplate.update(sql, cpf, Id);
+        try {
+            return jdbcTemplate.update(sql, cpf, Id);
+        } catch (DataAccessException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        }
     }
 
     @Override
@@ -101,7 +121,11 @@ public class FuncionarioRepo implements IFuncionario {
                 SET nascimento = ?
                 WHERE codigo = ?;
                 """;
-        return jdbcTemplate.update(sql, dob, Id);
+        try {
+            return jdbcTemplate.update(sql, dob, Id);
+        } catch (DataAccessException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        }
     }
 
     @Override
@@ -111,7 +135,12 @@ public class FuncionarioRepo implements IFuncionario {
                 SET admissao = ?
                 WHERE codigo = ?;
                 """;
-        return jdbcTemplate.update(sql, admissao, Id);
+
+        try {
+            return jdbcTemplate.update(sql, admissao, Id);
+        } catch (DataAccessException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        }
     }
 
     @Override
@@ -121,7 +150,10 @@ public class FuncionarioRepo implements IFuncionario {
                 SET isActive = 0
                 WHERE codigo = ?;
                 """;
-
-        return jdbcTemplate.update(sql, Id);
+        try {
+            return jdbcTemplate.update(sql, Id);
+        } catch (DataAccessException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        }
     }
 }
