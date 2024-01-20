@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface IFuncionario {
     List<Funcionario> getAll(Boolean isActive);
     Optional<Funcionario> getById(Integer id);
+    List<Funcionario> getByName(String name);
     Integer insertOne(Funcionario funcionario);
     Integer updateName(String name, Integer Id);
     Integer updateCargo(String cargo, Integer Id);

@@ -30,6 +30,11 @@ public class FuncionarioController {
         return service.getById(id);
     }
 
+    @GetMapping("/get-by-name")
+    public List<GetFuncionarioDTO> getByName(@RequestParam String name) {
+        return service.getByName(name);
+    }
+
     @PostMapping
     public CreateFuncionarioDTO createNew(@Valid @RequestBody CreateFuncionarioDTO dto) {
         return service.insertOne(dto);

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -41,7 +42,7 @@ public class FuncionarioRepo implements IFuncionario {
         var sql = """
                 SELECT *
                 FROM funcionario
-                WHERE codigo = ?
+                WHERE codigo = ?;
                 """;
 
         try {
@@ -49,6 +50,17 @@ public class FuncionarioRepo implements IFuncionario {
         } catch (DataAccessException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
+    }
+
+    @Override
+    public List<Funcionario> getByName(String name) {
+        var sql = """
+                SELECT *
+                FROM funcionario
+                WHERE nome LIKE ?;
+                """;
+
+        return jdbcTemplate.query(sql, new FuncionarioMapper(), "%" + name + "%");
     }
 
     @Override

@@ -36,6 +36,12 @@ public class FuncionarioService {
         return mapper.map(opt.get(), GetFuncionarioDTO.class);
     }
 
+    public List<GetFuncionarioDTO> getByName(String name) {
+        return repository.getByName(name).stream().map(
+                i -> mapper.map(i, GetFuncionarioDTO.class)
+        ).toList();
+    }
+
     public CreateFuncionarioDTO insertOne(CreateFuncionarioDTO dto) {
         repository.insertOne(mapper.map(dto, Funcionario.class));
         return dto;
@@ -59,6 +65,5 @@ public class FuncionarioService {
 
         return dto;
     }
-
 
 }
