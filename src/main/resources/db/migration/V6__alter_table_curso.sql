@@ -1,0 +1,2 @@
+ALTER TABLE curso
+ADD ativo BIT DEFAULT 1;
