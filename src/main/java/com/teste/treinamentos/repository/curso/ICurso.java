@@ -10,8 +10,8 @@ public interface ICurso {
     Optional<Curso> getById(Integer id);
     List<Curso> getByName(String name);
     Integer insertOne(Curso curso);
-    Integer updateNome(String nome);
-    Integer updateDescricao(String descricao);
-    Integer updateDuracao(Integer duracao);
+    Integer updateNome(String nome, Integer id);
+    Integer updateDescricao(String descricao, Integer id);
+    Integer updateDuracao(Integer duracao, Integer id);
 
 }

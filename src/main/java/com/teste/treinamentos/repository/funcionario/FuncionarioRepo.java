@@ -71,7 +71,8 @@ public class FuncionarioRepo implements IFuncionario {
                 """;
 
         try {
-            return jdbcTemplate.update(sql,
+            return jdbcTemplate.update(
+                    sql,
                     funcionario.getNome(),
                     funcionario.getCpf(),
                     funcionario.getNascimento(),
