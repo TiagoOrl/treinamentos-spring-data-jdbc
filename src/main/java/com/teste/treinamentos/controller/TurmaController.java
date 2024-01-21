@@ -3,6 +3,7 @@ package com.teste.treinamentos.controller;
 import com.teste.treinamentos.dto.funcionario.GetFuncionarioDTO;
 import com.teste.treinamentos.dto.turma.CreateTurmaDTO;
 import com.teste.treinamentos.dto.turma.GetTurmaDTO;
+import com.teste.treinamentos.dto.turma.PeriodoDTO;
 import com.teste.treinamentos.dto.turma_part.AddTurmaParticipanteDTO;
 import com.teste.treinamentos.service.TurmaService;
 import jakarta.validation.Valid;
@@ -24,6 +25,11 @@ public class TurmaController {
     @GetMapping("all")
     public List<GetTurmaDTO> getAll() {
         return service.getAll();
+    }
+
+    @GetMapping("all-by-period")
+    public List<GetTurmaDTO> getAllByPeriod(@Valid @RequestBody PeriodoDTO dto) {
+        return service.getAllByPeriod(dto);
     }
 
     @GetMapping("by-course-id")

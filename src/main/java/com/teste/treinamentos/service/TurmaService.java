@@ -3,6 +3,7 @@ package com.teste.treinamentos.service;
 import com.teste.treinamentos.dto.funcionario.GetFuncionarioDTO;
 import com.teste.treinamentos.dto.turma.CreateTurmaDTO;
 import com.teste.treinamentos.dto.turma.GetTurmaDTO;
+import com.teste.treinamentos.dto.turma.PeriodoDTO;
 import com.teste.treinamentos.dto.turma_part.AddTurmaParticipanteDTO;
 import com.teste.treinamentos.entity.Turma;
 import com.teste.treinamentos.repository.curso.CursoRepo;
@@ -44,6 +45,13 @@ public class TurmaService {
         return turmaRepository.getAll().stream().map(
                 turma -> buildTurmaDTO(turma)
         ).toList();
+    }
+
+    public List<GetTurmaDTO> getAllByPeriod(PeriodoDTO dto) {
+        return turmaRepository.getAllByPeriod(dto.getInicio(), dto.getFim())
+                .stream().map(
+                        turma -> buildTurmaDTO(turma)
+                ).toList();
     }
 
     public List<GetTurmaDTO> getAllTurmasByCourseId(Integer courseId) {

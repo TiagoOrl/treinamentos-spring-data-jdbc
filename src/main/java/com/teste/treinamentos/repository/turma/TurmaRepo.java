@@ -1,6 +1,7 @@
 package com.teste.treinamentos.repository.turma;
 
 import com.teste.treinamentos.entity.Turma;
+import com.teste.treinamentos.utils.DateHelper;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -28,6 +29,23 @@ public class TurmaRepo implements ITurma {
                 """;
 
         return template.query(sql, new TurmaMapper());
+    }
+
+    @Override
+    public List<Turma> getAllByPeriod(String start, String end) {
+        var sql = """
+                SELECT * FROM turma
+                WHERE inicio BETWEEN ? AND ?
+                ORDER BY inicio ASC
+                LIMIT 100;
+                """;
+
+        return template.query(
+                sql,
+                new TurmaMapper(),
+                DateHelper.convertToLocalDate(start),
+                DateHelper.convertToLocalDate(end)
+        );
     }
 
     @Override
