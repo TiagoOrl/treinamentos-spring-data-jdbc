@@ -42,7 +42,7 @@ public class TurmaService {
 
     public List<GetTurmaDTO> getAll() {
         return turmaRepository.getAll().stream().map(
-                i -> mapper.map(i, GetTurmaDTO.class)
+                turma -> buildTurmaDTO(turma)
         ).toList();
     }
 
@@ -53,7 +53,7 @@ public class TurmaService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Codigo de curso não existente");
 
         return turmaRepository.getAllByCourseId(courseId).stream().map(
-                i -> mapper.map(i, GetTurmaDTO.class)
+                turma -> buildTurmaDTO(turma)
         ).toList();
     }
 
@@ -101,5 +101,20 @@ public class TurmaService {
         turmaPartRepository.removeFuncionarioFromTurma(funcionarioId, turmaId);
 
         return mapper.map(opt.get(), GetFuncionarioDTO.class);
+    }
+
+
+    private GetTurmaDTO buildTurmaDTO(Turma turma) {
+        var alunosDaTurma = turmaPartRepository.getAllByTurmaId(turma.getCodigo())
+                .stream().map(turmaPart -> {
+                    var funcionarioOpt = funcionarioRepository.getById(turmaPart.getCodigoFuncionario());
+                    if (funcionarioOpt.isPresent())
+                        return funcionarioOpt.get();
+                    else
+                        return null;
+                }).toList();
+        turma.setParticipantes(alunosDaTurma);
+        turma.setQuantidadeParticipantes(alunosDaTurma.size());
+        return mapper.map(turma, GetTurmaDTO.class);
     }
 }

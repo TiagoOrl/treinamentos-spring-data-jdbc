@@ -46,7 +46,7 @@ public class CursoService {
                 curso -> {
                     List<Turma> turmas = turmaRepository.getAllByCourseId(curso.getCodigo());
                     turmas.forEach(turma -> {
-                        var funcionario = turmaPartRepository.getAllByTurmaId(turma.getCodigo()).stream().map(
+                        var funcionariosDaTurma = turmaPartRepository.getAllByTurmaId(turma.getCodigo()).stream().map(
                                 turmaPart -> {
                                     var opt = funcionarioRepo.getById(turmaPart.getCodigoFuncionario());
                                     if (opt.isPresent())
@@ -57,7 +57,7 @@ public class CursoService {
                         ).toList();
 
 
-                        turma.setParticipantes(funcionario);
+                        turma.setParticipantes(funcionariosDaTurma);
                     });
                     curso.setTurmas(turmas);
                     curso.setQuantidadeTurmas(turmas.size());
