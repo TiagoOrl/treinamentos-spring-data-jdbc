@@ -1,5 +1,6 @@
 package com.teste.treinamentos.dto.curso;
 
+import com.teste.treinamentos.dto.turma.GetTurmaDTO;
 import com.teste.treinamentos.entity.Turma;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,5 +17,6 @@ public class GetCursoDTO {
     private String descricao;
     private Integer duracao;
     private Integer quantidadeTurmas;
-    private List<Turma> turmas;
+    private List<GetTurmaDTO> turmas;
+    private Boolean ativo;
 }

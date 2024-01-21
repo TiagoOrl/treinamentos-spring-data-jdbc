@@ -1,5 +1,6 @@
 package com.teste.treinamentos.dto.turma;
 
+import com.teste.treinamentos.dto.funcionario.GetFuncionarioDTO;
 import com.teste.treinamentos.entity.Funcionario;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,6 @@ public class GetTurmaDTO {
     private LocalDate fim;
     private String localizacao;
     private Integer cursoCodigo;
-    private List<Funcionario> participantes;
+    private List<GetFuncionarioDTO> participantes;
     private Integer quantidadeParticipantes;
 }

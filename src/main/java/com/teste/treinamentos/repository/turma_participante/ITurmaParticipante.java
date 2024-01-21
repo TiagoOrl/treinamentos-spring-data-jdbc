@@ -10,6 +10,6 @@ public interface ITurmaParticipante {
     List<TurmaParticipante> getAllByTurmaId(Integer turmaId);
     Integer insertFuncionario(Integer funcionarioId, Integer turmaId);
     Integer removeFuncionarioFromTurma(Integer funcionarioId, Integer turmaId);
-    Integer removeAllByTurmaId(Integer turmaId);
+    Integer removeAllStudentsByTurmaId(Integer turmaId);
     Optional<TurmaParticipante> checkIfTurmaContainsFuncionario(Integer turmaId, Integer funcionarioId);
 }

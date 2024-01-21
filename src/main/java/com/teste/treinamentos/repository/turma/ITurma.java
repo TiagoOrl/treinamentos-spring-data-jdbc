@@ -11,4 +11,5 @@ public interface ITurma {
     List<Turma> getAllByCourseId(Integer courseId);
     Integer insertOne(Turma turma);
     Integer deleteOneById(Integer id);
+    Integer deleteAllByCourseId(Integer courseId);
 }

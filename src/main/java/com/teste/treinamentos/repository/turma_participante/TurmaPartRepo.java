@@ -70,7 +70,7 @@ public class TurmaPartRepo implements ITurmaParticipante {
     }
 
     @Override
-    public Integer removeAllByTurmaId(Integer turmaId) {
+    public Integer removeAllStudentsByTurmaId(Integer turmaId) {
         var sql = """
                 DELETE FROM turma_participante
                 WHERE fk_turma_cod = ?;

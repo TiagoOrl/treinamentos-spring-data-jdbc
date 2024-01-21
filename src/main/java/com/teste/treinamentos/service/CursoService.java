@@ -16,10 +16,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CursoService {
-    private final CursoRepo repository;
+    private final CursoRepo cursoRepository;
     private final TurmaRepo turmaRepository;
     private final TurmaPartRepo turmaPartRepository;
     private final FuncionarioRepo funcionarioRepo;
@@ -33,15 +34,15 @@ public class CursoService {
             FuncionarioRepo funcionarioRepo,
             ModelMapper mapper
     ) {
-        this.repository = repository;
+        this.cursoRepository = repository;
         this.turmaRepository = turmaRepository;
         this.turmaPartRepository = turmaPartRepository;
         this.funcionarioRepo = funcionarioRepo;
         this.mapper = mapper;
     }
 
-    public List<GetCursoDTO> getAll() {
-        return repository.getAll().stream().map(
+    public List<GetCursoDTO> getAll(Optional<Boolean> ativo) {
+        return cursoRepository.getAll(ativo.orElse(true)).stream().map(
                 curso -> {
                     List<Turma> turmas = turmaRepository.getAllByCourseId(curso.getCodigo());
                     turmas.forEach(turma -> {
@@ -65,8 +66,8 @@ public class CursoService {
         ).toList();
     }
 
-    public GetCursoDTO getById(Integer id) {
-        var cursoOpt = repository.getById(id);
+    public GetCursoDTO getById(Integer id, Optional<Boolean> ativo) {
+        var cursoOpt = cursoRepository.getById(id, ativo.orElse(true));
 
         if (cursoOpt.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Curso com este id não encontrado");
@@ -93,8 +94,8 @@ public class CursoService {
         return mapper.map(curso, GetCursoDTO.class);
     }
 
-    public List<GetCursoDTO> getByName(String name) {
-        return repository.getByName(name).stream().map(
+    public List<GetCursoDTO> getByName(String name, Optional<Boolean> ativo) {
+        return cursoRepository.getByName(name, ativo.orElse(true)).stream().map(
                 curso -> {
                     List<Turma> turmas = turmaRepository.getAllByCourseId(curso.getCodigo());
                     turmas.forEach(turma -> {
@@ -119,27 +120,51 @@ public class CursoService {
     }
 
     public CreateCursoDTO createOne(CreateCursoDTO dto) {
-        repository.insertOne(mapper.map(dto, Curso.class));
+        cursoRepository.insertOne(mapper.map(dto, Curso.class));
 
         return dto;
     }
 
     public UpdateCursoDTO updateOne(UpdateCursoDTO dto) {
         var id = dto.getCodigo();
-        var opt = repository.getById(id);
+        var opt = cursoRepository.getById(id, true);
 
         if (opt.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "curso com este id não encontrado");
 
         if (dto.getNome() != null)
-            repository.updateNome(dto.getNome(), id);
+            cursoRepository.updateNome(dto.getNome(), id);
         if (dto.getDescricao() != null)
-            repository.updateDescricao(dto.getDescricao(), id);
+            cursoRepository.updateDescricao(dto.getDescricao(), id);
         if (dto.getDuracao() != null) {
-            repository.updateDuracao(dto.getDuracao(), id);
+            cursoRepository.updateDuracao(dto.getDuracao(), id);
         }
 
         return dto;
+    }
+
+    public GetCursoDTO deleteById(Integer cursoId, Optional<Boolean> force) {
+        var opt = cursoRepository.getById(cursoId, true);
+        if(opt.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Curso com este id nao encontrado: " + cursoId);
+
+        var turmasEncontradas = turmaRepository.getAllByCourseId(cursoId);
+
+        if (!turmasEncontradas.isEmpty())
+            cursoRepository.updateStatus(false, cursoId);
+        else
+            cursoRepository.deleteById(cursoId);
+
+        if(force.orElse(false)) {
+            var turmas = turmaRepository.getAllByCourseId(cursoId);
+            turmas.forEach(
+                    turma -> turmaPartRepository.removeAllStudentsByTurmaId(turma.getCodigo())
+            );
+            turmaRepository.deleteAllByCourseId(cursoId);
+        }
+
+
+        return mapper.map(opt.get(), GetCursoDTO.class);
     }
 }
 

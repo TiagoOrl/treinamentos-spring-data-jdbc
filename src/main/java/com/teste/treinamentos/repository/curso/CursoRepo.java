@@ -22,40 +22,46 @@ public class CursoRepo implements ICurso {
 
 
     @Override
-    public List<Curso> getAll() {
+    public List<Curso> getAll(Boolean ativo) {
         var sql = """
                 SELECT *
                 FROM curso
+                WHERE ativo = ?
                 LIMIT 100;
                 """;
 
-        return jdbcTemplate.query(sql, new CursoMapper());
+        return jdbcTemplate.query(sql, new CursoMapper(), ativo);
     }
 
     @Override
-    public Optional<Curso> getById(Integer id) {
+    public Optional<Curso> getById(Integer id, Boolean ativo) {
         var sql = """
                 SELECT *
                 FROM curso
-                WHERE codigo = ?;
+                WHERE codigo = ? AND ativo = ?;
                 """;
 
         try {
-            return jdbcTemplate.query(sql, new CursoMapper(), id).stream().findFirst();
+            return jdbcTemplate.query(sql, new CursoMapper(), id, ativo)
+                    .stream().findFirst();
         } catch (DataAccessException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }
 
     @Override
-    public List<Curso> getByName(String name) {
+    public List<Curso> getByName(String name, Boolean ativo) {
         var sql = """
                 SELECT *
                 FROM curso
-                WHERE nome LIKE ?;
+                WHERE nome LIKE ? AND ativo = ?;
                 """;
 
-        return jdbcTemplate.query(sql, new CursoMapper(), "%" + name + "%");
+        return jdbcTemplate.query(
+                sql,
+                new CursoMapper(),
+                "%" + name + "%",
+                ativo);
     }
 
     @Override
@@ -117,6 +123,35 @@ public class CursoRepo implements ICurso {
 
         try {
             return jdbcTemplate.update(sql, duracao, id);
+        } catch (DataAccessException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        }
+    }
+
+    @Override
+    public Integer updateStatus(Boolean status, Integer courseId) {
+        var sql = """
+                UPDATE curso
+                SET ativo = ?
+                WHERE codigo = ?;
+                """;
+
+        try {
+            return jdbcTemplate.update(sql, status, courseId);
+        } catch (DataAccessException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        }
+    }
+
+    @Override
+    public Integer deleteById(Integer id) {
+        var sql = """
+                DELETE FROM curso
+                WHERE codigo = ?
+                """;
+
+        try {
+            return jdbcTemplate.update(sql, id);
         } catch (DataAccessException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }

@@ -74,4 +74,18 @@ public class TurmaRepo implements ITurma {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }
+
+    @Override
+    public Integer deleteAllByCourseId(Integer courseId) {
+        var sql = """
+                DELETE FROM turma
+                WHERE fk_curso_cod = ?
+                """;
+
+        try {
+            return template.update(sql, courseId);
+        } catch (DataAccessException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        }
+    }
 }

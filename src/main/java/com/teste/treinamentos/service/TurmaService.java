@@ -47,7 +47,7 @@ public class TurmaService {
     }
 
     public List<GetTurmaDTO> getAllTurmasByCourseId(Integer courseId) {
-        var opt = cursoRepository.getById(courseId);
+        var opt = cursoRepository.getById(courseId, true);
 
         if (opt.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Codigo de curso não existente");
@@ -59,7 +59,7 @@ public class TurmaService {
 
 
     public CreateTurmaDTO createOne(CreateTurmaDTO dto) {
-        var opt = cursoRepository.getById(dto.getCursoCodigo());
+        var opt = cursoRepository.getById(dto.getCursoCodigo(), true);
 
         if (opt.isEmpty())
             throw new ResponseStatusException(HttpStatus.CONFLICT, "tentando criar turma para um código de curso não existente");
@@ -87,7 +87,7 @@ public class TurmaService {
         if (opt.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "turma com este Id não encontrada");
 
-        turmaPartRepository.removeAllByTurmaId(turmaId);
+        turmaPartRepository.removeAllStudentsByTurmaId(turmaId);
         turmaRepository.deleteOneById(turmaId);
 
         return mapper.map(opt.get(), GetTurmaDTO.class);
