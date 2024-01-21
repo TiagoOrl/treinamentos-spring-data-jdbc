@@ -57,6 +57,21 @@ public class TurmaService {
         ).toList();
     }
 
+    public List<GetTurmaDTO> getByCourseIdAndStudentId(Integer cursoId, Integer funcionarioId) {
+
+        var turmas = turmaRepository.getAllByCourseIdAndFuncionarioId(cursoId, funcionarioId).stream().map(
+                turma -> mapper.map(turma, GetTurmaDTO.class)
+        ).toList();
+
+        if (turmas.isEmpty())
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Não foi encontrado turmas para o funcionario: " + funcionarioId
+                    + "com o curso: " + cursoId
+            );
+
+        return turmas;
+    }
+
 
     public CreateTurmaDTO createOne(CreateTurmaDTO dto) {
         var opt = cursoRepository.getById(dto.getCursoCodigo(), true);

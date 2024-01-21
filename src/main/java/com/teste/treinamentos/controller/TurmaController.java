@@ -31,6 +31,14 @@ public class TurmaController {
         return service.getAllTurmasByCourseId(id);
     }
 
+    @GetMapping("by-course-and-funcionario-id")
+    public List<GetTurmaDTO> getByCourseIdAndStudentId(
+            @RequestParam Integer cursoId,
+            @RequestParam Integer funcionarioId
+    ) {
+        return service.getByCourseIdAndStudentId(cursoId, funcionarioId);
+    }
+
     @PostMapping("create-turma")
     public CreateTurmaDTO createOne(@Valid @RequestBody CreateTurmaDTO dto) {
         return service.createOne(dto);

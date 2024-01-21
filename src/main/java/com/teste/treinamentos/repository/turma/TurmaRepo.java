@@ -52,6 +52,20 @@ public class TurmaRepo implements ITurma {
     }
 
     @Override
+    public List<Turma> getAllByCourseIdAndFuncionarioId(Integer courseId, Integer funcionarioId) {
+        var sql = """
+                SELECT turma.*, turma_participante.*
+                FROM turma
+                INNER JOIN turma_participante ON turma.codigo = turma_participante.fk_turma_cod
+                WHERE turma.fk_curso_cod = ? AND turma_participante.fk_funcionario_cod = ?
+                LIMIT 100;
+                """;
+
+        return template.query(sql, new TurmaMapper(), courseId, funcionarioId);
+    }
+
+
+    @Override
     public Integer insertOne(Turma turma) {
         var sql = """
                 INSERT INTO turma (inicio, fim, localizacao, fk_curso_cod)
