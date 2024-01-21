@@ -132,4 +132,16 @@ public class TurmaService {
         turma.setQuantidadeParticipantes(alunosDaTurma.size());
         return mapper.map(turma, GetTurmaDTO.class);
     }
+
+    public GetFuncionarioDTO removeStudentFromAllTurmas(Integer id) {
+        var opt = funcionarioRepository.getById(id);
+
+        if (opt.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND
+                    , "Funcionario com este id: " + id + " não encontrado"
+            );
+        turmaPartRepository.removeStudentFromAllTurmas(id);
+
+        return mapper.map(opt.get(), GetFuncionarioDTO.class);
+    }
 }

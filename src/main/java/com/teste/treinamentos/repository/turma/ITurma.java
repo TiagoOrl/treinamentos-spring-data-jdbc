@@ -2,6 +2,7 @@ package com.teste.treinamentos.repository.turma;
 
 import com.teste.treinamentos.entity.Turma;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 

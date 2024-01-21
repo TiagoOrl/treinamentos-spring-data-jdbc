@@ -63,4 +63,9 @@ public class TurmaController {
     public GetTurmaDTO deleteTurmaById(@RequestParam(name = "turma_id") Integer id) {
         return service.deleteTurmaById(id);
     }
+
+    @DeleteMapping("remove-student-from-all-future")
+    public GetFuncionarioDTO removeStudentFromAllTurmas(@RequestParam Integer id) {
+        return service.removeStudentFromAllTurmas(id);
+    }
 }

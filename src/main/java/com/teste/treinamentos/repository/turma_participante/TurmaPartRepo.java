@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -92,5 +93,22 @@ public class TurmaPartRepo implements ITurmaParticipante {
                 """;
 
         return template.query(sql, new TurmaPartMapper(), turmaId, funcionarioId).stream().findFirst();
+    }
+
+    /**
+     * Exclui um funcionario de turmas futuras
+     * @param funcionarioId
+     * @return
+     */
+    @Override
+    public Integer removeStudentFromAllTurmas(Integer funcionarioId) {
+        var sql = """
+                DELETE turma_participante
+                FROM turma_participante
+                INNER JOIN turma ON turma_participante.fk_turma_cod = turma.codigo
+                WHERE turma_participante.fk_funcionario_cod = ? AND turma.inicio > ?
+                """;
+
+        return template.update(sql, funcionarioId, LocalDate.now());
     }
 }
