@@ -22,6 +22,7 @@ public class TurmaRepo implements ITurma {
     public List<Turma> getAll() {
         var sql = """
                 SELECT * FROM turma
+                ORDER BY inicio ASC
                 LIMIT 100;
                 """;
 
@@ -42,7 +43,9 @@ public class TurmaRepo implements ITurma {
     public List<Turma> getAllByCourseId(Integer courseId) {
         var sql = """
                 SELECT * FROM turma
-                WHERE fk_curso_cod = ?;
+                WHERE fk_curso_cod = ?
+                ORDER BY inicio ASC
+                LIMIT 100;
                 """;
 
         return template.query(sql, new TurmaMapper(), courseId);
