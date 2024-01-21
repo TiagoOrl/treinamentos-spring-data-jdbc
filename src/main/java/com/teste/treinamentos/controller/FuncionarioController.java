@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/funcionario")
@@ -21,7 +22,9 @@ public class FuncionarioController {
     }
 
     @GetMapping("/all")
-    public List<GetFuncionarioDTO> getAll(@RequestParam Boolean active) {
+    public List<GetFuncionarioDTO> getAll(
+            @RequestParam Optional<Boolean> active
+    ) {
         return service.getAll(active);
     }
 

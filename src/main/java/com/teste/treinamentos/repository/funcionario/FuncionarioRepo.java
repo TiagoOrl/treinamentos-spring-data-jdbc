@@ -21,19 +21,28 @@ public class FuncionarioRepo implements IFuncionario {
     }
 
     @Override
-    public List<Funcionario> getAll(Boolean isActive) {
-        var active = isActive ? 1 : 0;
+    public List<Funcionario> getAll() {
+        var sql = """
+                SELECT codigo, nome, cpf, nascimento, cargo, admissao, status
+                FROM funcionario
+                ORDER BY nome
+                LIMIT 100;
+                """;
+
+        return jdbcTemplate.query(sql, new FuncionarioMapper());
+    }
+
+    @Override
+    public List<Funcionario> getAllByActive(Boolean active) {
         var sql = """
                 SELECT codigo, nome, cpf, nascimento, cargo, admissao, status
                 FROM funcionario
                 WHERE status = ?
+                ORDER BY nome
                 LIMIT 100;
                 """;
-        try {
-            return jdbcTemplate.query(sql, new FuncionarioMapper(), active);
-        } catch (DataAccessException e) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
-        }
+
+        return jdbcTemplate.query(sql, new FuncionarioMapper(), active);
     }
 
     @Override
@@ -56,7 +65,8 @@ public class FuncionarioRepo implements IFuncionario {
         var sql = """
                 SELECT *
                 FROM funcionario
-                WHERE nome LIKE ?;
+                WHERE nome LIKE ?
+                ORDER BY nome;
                 """;
 
         return jdbcTemplate.query(sql, new FuncionarioMapper(), "%" + name + "%");

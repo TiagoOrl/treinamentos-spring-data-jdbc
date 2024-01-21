@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FuncionarioService {
@@ -22,10 +23,15 @@ public class FuncionarioService {
         this.mapper = mapper;
     }
 
-    public List<GetFuncionarioDTO> getAll(Boolean active) {
-        return repository.getAll(active).stream().map(i -> {
-            return mapper.map(i, GetFuncionarioDTO.class);
-        }).toList();
+    public List<GetFuncionarioDTO> getAll(Optional<Boolean> active) {
+        if (active.isEmpty())
+            return repository.getAll().stream().map(
+                    i ->  mapper.map(i, GetFuncionarioDTO.class)
+            ).toList();
+        else
+            return repository.getAllByActive(active.get()).stream().map(
+                    i -> mapper.map(i, GetFuncionarioDTO.class)
+            ).toList();
     }
 
     public GetFuncionarioDTO getById(Integer id) {

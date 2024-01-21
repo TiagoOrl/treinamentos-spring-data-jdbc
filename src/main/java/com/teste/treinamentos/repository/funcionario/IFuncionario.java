@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IFuncionario {
-    List<Funcionario> getAll(Boolean isActive);
+    List<Funcionario> getAll();
+    List<Funcionario> getAllByActive(Boolean active);
     Optional<Funcionario> getById(Integer id);
     List<Funcionario> getByName(String name);
     Integer insertOne(Funcionario funcionario);
