@@ -70,6 +70,12 @@ public class TurmaService {
     }
 
     public AddTurmaParticipanteDTO addTurmaParticipante(AddTurmaParticipanteDTO dto) {
+        var opt = turmaPartRepository.checkIfTurmaContainsFuncionario(dto.getTurmaId(), dto.getFuncionarioId());
+        if (opt.isPresent())
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT, "Funcionario ja cadastrado nesta turma: " + dto.getTurmaId()
+            );
+
         turmaPartRepository.insertFuncionario(dto.getFuncionarioId(), dto.getTurmaId());
 
         return dto;

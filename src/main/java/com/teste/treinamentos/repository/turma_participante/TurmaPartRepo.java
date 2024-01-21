@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class TurmaPartRepo implements ITurmaParticipante {
@@ -71,5 +72,15 @@ public class TurmaPartRepo implements ITurmaParticipante {
         } catch (DataAccessException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
+    }
+
+    @Override
+    public Optional<TurmaParticipante> checkIfTurmaContainsFuncionario(Integer turmaId, Integer funcionarioId) {
+        var sql = """
+                SELECT * FROM turma_participante
+                WHERE fk_turma_cod = ? AND fk_funcionario_cod = ?;
+                """;
+
+        return template.query(sql, new TurmaPartMapper(), turmaId, funcionarioId).stream().findFirst();
     }
 }
