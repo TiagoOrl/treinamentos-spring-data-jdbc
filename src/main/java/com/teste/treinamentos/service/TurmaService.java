@@ -52,7 +52,7 @@ public class TurmaService {
         if (opt.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Codigo de curso não existente");
 
-        return turmaRepository.getByCourseId(courseId).stream().map(
+        return turmaRepository.getAllByCourseId(courseId).stream().map(
                 i -> mapper.map(i, GetTurmaDTO.class)
         ).toList();
     }

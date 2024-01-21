@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -16,6 +17,9 @@ public class Turma {
     private LocalDate fim;
     private String localizacao;
     private Integer cursoCodigo;
+    private List<Funcionario> participantes;
+    private Integer quantidadeParticipantes;
+
 
     public void setInicio(String date) {
         this.inicio = DateHelper.convertToLocalDate(date);

@@ -32,6 +32,16 @@ public class TurmaPartRepo implements ITurmaParticipante {
     }
 
     @Override
+    public List<TurmaParticipante> getAllByTurmaId(Integer turmaId) {
+        var sql = """
+                SELECT * FROM turma_participante
+                WHERE fk_turma_cod = ?
+                """;
+
+        return template.query(sql, new TurmaPartMapper(), turmaId);
+    }
+
+    @Override
     public Integer insertFuncionario(Integer funcionarioId, Integer turmaId) {
         var sql = """
                 INSERT INTO turma_participante (fk_funcionario_cod, fk_turma_cod)

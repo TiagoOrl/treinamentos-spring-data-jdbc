@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class CursoMapper implements RowMapper<Curso> {
     @Override
@@ -13,7 +14,10 @@ public class CursoMapper implements RowMapper<Curso> {
                 rs.getInt("codigo"),
                 rs.getString("nome"),
                 rs.getString("descricao"),
-                rs.getInt("duracao")
+                rs.getInt("duracao"),
+                rs.getBoolean("ativo"),
+                0,
+                List.of()
         );
     }
 }

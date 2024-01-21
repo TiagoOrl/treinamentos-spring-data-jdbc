@@ -39,7 +39,7 @@ public class TurmaRepo implements ITurma {
     }
 
     @Override
-    public List<Turma> getByCourseId(Integer courseId) {
+    public List<Turma> getAllByCourseId(Integer courseId) {
         var sql = """
                 SELECT * FROM turma
                 WHERE fk_curso_cod = ?;

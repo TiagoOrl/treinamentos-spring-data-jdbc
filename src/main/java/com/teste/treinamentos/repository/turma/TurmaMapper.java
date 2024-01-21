@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 
 public class TurmaMapper implements RowMapper<Turma> {
     @Override
@@ -15,7 +16,9 @@ public class TurmaMapper implements RowMapper<Turma> {
                 LocalDate.parse(rs.getString("inicio")),
                 LocalDate.parse(rs.getString("fim")),
                 rs.getString("localizacao"),
-                rs.getInt("fk_curso_cod")
+                rs.getInt("fk_curso_cod"),
+                List.of(),
+                0
         );
 
     }

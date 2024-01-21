@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface ITurma {
     List<Turma> getAll();
     Optional<Turma> getById(Integer id);
-    List<Turma> getByCourseId(Integer courseId);
+    List<Turma> getAllByCourseId(Integer courseId);
     Integer insertOne(Turma turma);
     Integer deleteOneById(Integer id);
 }
