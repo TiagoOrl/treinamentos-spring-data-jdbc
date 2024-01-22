@@ -17,13 +17,4 @@ public class Swagger3Config {
                 .build();
     }
 
-    @Bean
-    public OperationCustomizer customize() {
-        return (operation, handlerMethod) -> operation.addParametersItem(
-                new Parameter()
-                        .in("header")
-                        .required(true)
-                        .description("Bearer Token")
-                        .name("Authorization"));
-    }
 }
