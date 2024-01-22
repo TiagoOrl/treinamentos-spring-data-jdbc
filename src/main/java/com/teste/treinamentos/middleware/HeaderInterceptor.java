@@ -5,9 +5,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-
 @Slf4j
 public class HeaderInterceptor implements HandlerInterceptor {
 
