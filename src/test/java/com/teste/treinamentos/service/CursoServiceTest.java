@@ -6,9 +6,7 @@ import com.teste.treinamentos.dto.curso.GetCursoDTO;
 import com.teste.treinamentos.dto.curso.UpdateCursoDTO;
 import com.teste.treinamentos.entity.Curso;
 import com.teste.treinamentos.repository.curso.CursoRepo;
-import com.teste.treinamentos.repository.funcionario.FuncionarioRepo;
 import com.teste.treinamentos.repository.turma.TurmaRepo;
-import com.teste.treinamentos.repository.turma_participante.TurmaPartRepo;
 
 import org.junit.jupiter.api.Test;
 
