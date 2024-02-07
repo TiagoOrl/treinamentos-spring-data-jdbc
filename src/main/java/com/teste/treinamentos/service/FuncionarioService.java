@@ -18,9 +18,9 @@ public class FuncionarioService {
     private final FuncionarioRepo repository;
     private final ModelMapper mapper;
 
-    public FuncionarioService(FuncionarioRepo repository, ModelMapper mapper) {
+    public FuncionarioService(FuncionarioRepo repository) {
         this.repository = repository;
-        this.mapper = mapper;
+        this.mapper = new ModelMapper();
     }
 
     public List<GetFuncionarioDTO> getAll(Optional<Boolean> active) {

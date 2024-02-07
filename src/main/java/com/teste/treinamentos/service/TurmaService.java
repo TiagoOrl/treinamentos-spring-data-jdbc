@@ -31,14 +31,13 @@ public class TurmaService {
             TurmaRepo turmaRepository,
             TurmaPartRepo turmaPartRepository,
             FuncionarioRepo funcionarioRepository,
-            CursoRepo cursoRepository,
-            ModelMapper mapper
+            CursoRepo cursoRepository
             ) {
         this.turmaRepository = turmaRepository;
         this.turmaPartRepository = turmaPartRepository;
         this.funcionarioRepository = funcionarioRepository;
         this.cursoRepository = cursoRepository;
-        this.mapper = mapper;
+        this.mapper = new ModelMapper();
     }
 
     public List<GetTurmaDTO> getAll() {

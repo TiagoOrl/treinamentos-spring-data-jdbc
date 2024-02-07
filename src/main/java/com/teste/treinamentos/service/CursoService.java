@@ -31,14 +31,13 @@ public class CursoService {
             CursoRepo repository,
             TurmaRepo turmaRepository,
             TurmaPartRepo turmaPartRepository,
-            FuncionarioRepo funcionarioRepo,
-            ModelMapper mapper
+            FuncionarioRepo funcionarioRepo
     ) {
         this.cursoRepository = repository;
         this.turmaRepository = turmaRepository;
         this.turmaPartRepository = turmaPartRepository;
         this.funcionarioRepo = funcionarioRepo;
-        this.mapper = mapper;
+        this.mapper = new ModelMapper();
     }
 
     public List<GetCursoDTO> getAll(Optional<Boolean> ativo) {
