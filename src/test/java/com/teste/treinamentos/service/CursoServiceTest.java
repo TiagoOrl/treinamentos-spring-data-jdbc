@@ -1,7 +1,7 @@
 package com.teste.treinamentos.service;
 
 
-import com.teste.treinamentos.configs.ModelMapperTest;
+import com.teste.treinamentos.dto.curso.CreateCursoDTO;
 import com.teste.treinamentos.dto.curso.GetCursoDTO;
 import com.teste.treinamentos.entity.Curso;
 import com.teste.treinamentos.repository.curso.CursoRepo;
@@ -16,15 +16,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -34,10 +35,6 @@ public class CursoServiceTest {
     CursoRepo cursoRepository;
     @Mock
     TurmaRepo turmaRepository;
-    @Mock
-    TurmaPartRepo turmaPartRepository;
-    @Mock
-    FuncionarioRepo funcionarioRepo;
     @InjectMocks
     CursoService cursoService;
 
@@ -59,6 +56,29 @@ public class CursoServiceTest {
 
         assertThat(cursoService.getAll(Optional.of(true))).isEqualTo(expectedDTOList);
 
+    }
+
+    @Test
+    public void shouldSaveCursoAndReturnDTO() {
+        var newCurso = new CreateCursoDTO("AngularJS", "Curso para iniciantes em frontend", 180);
+
+        Mockito.when(cursoRepository.insertOne(any())).thenReturn(1);
+
+        var output = cursoService.createOne(newCurso);
+
+        assertThat(output).isEqualTo(newCurso);
+        verify(cursoRepository, times(1)).insertOne(any());
+    }
+
+    @Test
+    public void shouldThrowErrorOnCourseNotFound() {
+        Mockito.when(cursoRepository.getById(any(), any())).thenReturn(Optional.empty());
+
+        var exception = assertThrows(ResponseStatusException.class, () -> {
+           cursoService.getById(1, Optional.of(true));
+        });
+
+        assertThat(exception.getMessage()).contains("Curso com este id não encontrado");
     }
 
 }
