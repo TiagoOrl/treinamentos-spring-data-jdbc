@@ -3,6 +3,7 @@ package com.teste.treinamentos.service;
 
 import com.teste.treinamentos.dto.curso.CreateCursoDTO;
 import com.teste.treinamentos.dto.curso.GetCursoDTO;
+import com.teste.treinamentos.dto.curso.UpdateCursoDTO;
 import com.teste.treinamentos.entity.Curso;
 import com.teste.treinamentos.repository.curso.CursoRepo;
 import com.teste.treinamentos.repository.funcionario.FuncionarioRepo;
@@ -79,6 +80,23 @@ public class CursoServiceTest {
         });
 
         assertThat(exception.getMessage()).contains("Curso com este id não encontrado");
+    }
+
+    @Test
+    public void shouldCallSpecifiedMethodsOnGivenDTO() {
+        var mockCurso = new Curso(1, "test", "curso teste...", 180, true, 0, List.of());
+        var updateDTO = new UpdateCursoDTO();
+        updateDTO.setCodigo(1);
+        updateDTO.setNome("Rust Advanced");
+        updateDTO.setDescricao("Curso de Rust avançado");
+
+        Mockito.when(cursoRepository.getById(any(), any())).thenReturn(Optional.of(mockCurso));
+
+        cursoService.updateOne(updateDTO);
+
+        verify(cursoRepository, times(1)).updateNome(any(), any());
+        verify(cursoRepository, times(1)).updateDescricao(any(), any());
+        verify(cursoRepository, times(0)).updateDuracao(any(), any());
     }
 
 }
