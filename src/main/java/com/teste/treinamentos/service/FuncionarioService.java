@@ -8,6 +8,7 @@ import com.teste.treinamentos.repository.funcionario.FuncionarioRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -53,6 +54,7 @@ public class FuncionarioService {
         return dto;
     }
 
+    @Transactional
     public UpdateFuncionarioDTO updateById(UpdateFuncionarioDTO dto) {
         var opt = repository.getById(dto.getCodigo());
         if (opt.isEmpty())

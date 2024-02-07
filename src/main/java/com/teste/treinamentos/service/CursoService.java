@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -124,6 +125,7 @@ public class CursoService {
         return dto;
     }
 
+    @Transactional
     public UpdateCursoDTO updateOne(UpdateCursoDTO dto) {
         var id = dto.getCodigo();
         var opt = cursoRepository.getById(id, true);
@@ -142,6 +144,7 @@ public class CursoService {
         return dto;
     }
 
+    @Transactional
     public GetCursoDTO deleteById(Integer cursoId, Optional<Boolean> force) {
         var opt = cursoRepository.getById(cursoId, true);
         if(opt.isEmpty())
