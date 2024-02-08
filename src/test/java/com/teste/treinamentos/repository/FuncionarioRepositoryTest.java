@@ -15,12 +15,10 @@ import static org.assertj.core.api.Assertions.*;
 @TestPropertySource(locations="classpath:application-test.properties")
 @Sql(scripts={"classpath:squema.sql"})
 public class FuncionarioRepositoryTest {
-    private JdbcTemplate jdbcTemplate;
-    private FuncionarioRepo funcionarioRepo;
+    private final FuncionarioRepo funcionarioRepo;
 
     @Autowired
     public FuncionarioRepositoryTest(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
         this.funcionarioRepo = new FuncionarioRepo(jdbcTemplate);
     }
 
@@ -36,5 +34,23 @@ public class FuncionarioRepositoryTest {
         var rowsAffected = funcionarioRepo.insertOne(funcionario);
 
         assertThat(rowsAffected).isEqualTo(1);
+    }
+
+    @Test
+    public void shouldGetFuncionarioByName() {
+        var funcionario = new Funcionario();
+        funcionario.setNome("Tiago");
+        funcionario.setCargo("Analista de Dados Pleno");
+        funcionario.setAdmissao("2015-03-25");
+        funcionario.setNascimento("1996-05-21");
+        funcionario.setCpf("88055692084");
+
+        var rowsAffected = funcionarioRepo.insertOne(funcionario);
+
+        assertThat(rowsAffected).isEqualTo(1);
+        var found = funcionarioRepo.getByName("tiago");
+
+        assertThat(found.isEmpty()).isEqualTo(false);
+        assertThat(found.get(0).getNome()).contains("Tiago");
     }
 }
