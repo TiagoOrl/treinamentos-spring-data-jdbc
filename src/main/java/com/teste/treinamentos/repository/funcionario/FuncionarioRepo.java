@@ -65,11 +65,11 @@ public class FuncionarioRepo implements IFuncionario {
         var sql = """
                 SELECT *
                 FROM funcionario
-                WHERE nome LIKE ?
+                WHERE LOWER(nome) LIKE ?
                 ORDER BY nome;
                 """;
 
-        return jdbcTemplate.query(sql, new FuncionarioMapper(), "%" + name + "%");
+        return jdbcTemplate.query(sql, new FuncionarioMapper(), "%" + name.toLowerCase() + "%");
     }
 
     @Override
